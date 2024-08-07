@@ -10,7 +10,7 @@ import axios from 'axios';
 // Function to get performance data from PageSpeed Insights
 const fetchPerformanceData = async (url) => {
     try {
-      const apiKey = 'AIzaSyAJh3SVTqEQITNJC87xRCdgI8OP81uigkQ'; // Replace with your actual API key
+      const apiKey = process.env.PAGESPEED_API_KEY; // Replace with your actual API key
       const apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&key=${apiKey}`;
   
       // Fetch the data from the API
