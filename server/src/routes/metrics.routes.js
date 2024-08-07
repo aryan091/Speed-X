@@ -6,6 +6,5 @@ const router = express.Router();
 
 // Define your route using the imported handler
 router.post('/analyze', analyzeWebsite);
-router.post('/complete-analysis', completeAnalyzeWebsite);
 
 export default router;

@@ -4,51 +4,76 @@ import { URL } from 'url';
 import asyncHandler from '../utils/asyncHandler.js'; // Add .js for ESM
 import ApiResponse from '../utils/apiResponse.js';
 import ApiError from '../utils/apiError.js';
+import {getScoreCategory} from '../utils/helper.js';
+import axios from 'axios';
 
-const runLighthouse = async (url) => {
-  const browser = await puppeteer.launch({ headless: true });
-  const { lhr } = await lighthouse(url, {
-    port: new URL(browser.wsEndpoint()).port,
-    output: 'json',
-    logLevel: 'info',
-  });
-  await browser.close();
-  return lhr;
-};
+// Function to get performance data from PageSpeed Insights
+const fetchPerformanceData = async (url) => {
+    try {
+      const apiKey = 'AIzaSyAJh3SVTqEQITNJC87xRCdgI8OP81uigkQ'; // Replace with your actual API key
+      const apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&key=${apiKey}`;
+  
+      // Fetch the data from the API
+      const response = await axios.get(apiUrl);
+      const data = response.data.lighthouseResult;
 
-const completeAnalyzeWebsite = asyncHandler(async (req, res, next) => {
-  const { url } = req.body;
-
-  if (!url) {
-    throw new ApiError(400, 'URL is required', null, false, ['URL is missing']);
-  }
-
-  try {
-    const lhr = await runLighthouse(url);
-
-    const metrics = {
-      url,
-      loadTime: lhr.audits['speed-index'].displayValue,
-      totalRequestSize: lhr.audits['total-byte-weight'].displayValue,
-      numberOfRequests: lhr.audits['network-requests'].details.items.length,
-      ttfb: lhr.audits['server-response-time'].displayValue,
-      fcp: lhr.audits['first-contentful-paint'].displayValue,
-      lcp: lhr.audits['largest-contentful-paint'].displayValue,
-      cls: lhr.audits['cumulative-layout-shift'].displayValue,
-      tbt: lhr.audits['total-blocking-time'].displayValue,
-      timestamp: new Date(),
-    };
-
-    return res.status(201).json(
-      new ApiResponse(200, metrics, 'Metrics created successfully', true)
-    );
-  } catch (error) {
-    console.error(error);
-    next(new ApiError(500, 'Failed to analyze website', null, false, [error.message]));
-  }
-});
-
-const analyzeWebsite = asyncHandler(async (req, res, next) => {
+      console.log("Data - ",response.data);
+  
+      // Extract performance metrics and their ratings
+      const metrics = {
+        url: data.finalUrl,
+        performanceScore: data.categories.performance.score * 100, // Performance score (0-100)
+        fcp: {
+          value: data.audits['first-contentful-paint'].numericValue / 1000, // FCP in seconds
+          display: data.audits['first-contentful-paint'].displayValue,
+          rating: data.audits['first-contentful-paint'].score * 100, // Rating from API
+          category: getScoreCategory(data.audits['first-contentful-paint'].score),
+        },
+        lcp: {
+          value: data.audits['largest-contentful-paint'].numericValue / 1000, // LCP in seconds
+          display: data.audits['largest-contentful-paint'].displayValue,
+          rating: data.audits['largest-contentful-paint'].score * 100,
+          category: getScoreCategory(data.audits['largest-contentful-paint'].score),
+        },
+        cls: {
+          value: data.audits['cumulative-layout-shift'].numericValue,
+          display: data.audits['cumulative-layout-shift'].displayValue,
+          rating: data.audits['cumulative-layout-shift'].score * 100,
+          category: getScoreCategory(data.audits['cumulative-layout-shift'].score),
+        },
+        tbt: {
+          value: data.audits['total-blocking-time'].numericValue, // TBT in milliseconds
+          display: data.audits['total-blocking-time'].displayValue,
+          rating: data.audits['total-blocking-time'].score * 100,
+          category: getScoreCategory(data.audits['total-blocking-time'].score),
+        },
+        speedIndex: {
+          value: data.audits['speed-index'].numericValue / 1000, // Speed Index in seconds
+          display: data.audits['speed-index'].displayValue,
+          rating: data.audits['speed-index'].score * 100,
+          category: getScoreCategory(data.audits['speed-index'].score),
+        },
+        interactive: {
+          value: data.audits['interactive'].numericValue / 1000, // TTI in seconds
+          display: data.audits['interactive'].displayValue,
+          rating: data.audits['interactive'].score * 100,
+          category: getScoreCategory(data.audits['interactive'].score),
+        },
+        totalRequestSize: (data.audits['total-byte-weight'].numericValue / 1024).toFixed(2) + ' KB', // Total Request Size
+        numberOfRequests: data.audits['network-requests'].details.items.length, // Number of Requests
+        ttfb: data.audits['server-response-time'].displayValue, // Time to First Byte
+        timestamp: new Date().toISOString(), // Timestamp of the analysis
+      };
+  
+      return metrics; 
+    } catch (error) {
+      console.error('Error fetching performance data:', error.message);
+      throw new ApiError(500, 'Failed to fetch performance data', null, false, [error.message]);
+    }
+  };
+  
+  // Route handler for analyzing website performance
+  const analyzeWebsite = asyncHandler(async (req, res) => {
     const { url } = req.body;
   
     if (!url) {
@@ -56,23 +81,11 @@ const analyzeWebsite = asyncHandler(async (req, res, next) => {
     }
   
     try {
-      const lhr = await runLighthouse(url);
-  
-      const metrics = {
-        url,
-        loadTime: lhr.audits['speed-index'].displayValue,
-        totalRequestSize: lhr.audits['total-byte-weight'].displayValue,
-        numberOfRequests: lhr.audits['network-requests'].details.items.length,
-        timestamp: new Date(),
-      };
-  
-      return res.status(201).json(
-        new ApiResponse(200, metrics, 'Metrics created successfully', true)
-      );
+      const metrics = await fetchPerformanceData(url);
+      res.status(200).json(new ApiResponse(200, metrics, 'Metrics fetched successfully', true));
     } catch (error) {
-      console.error(error);
-      next(new ApiError(500, 'Failed to analyze website', null, false, [error.message]));
+      throw error; // asyncHandler will catch this and send an appropriate response
     }
   });
-
-export { analyzeWebsite , completeAnalyzeWebsite };
+  
+  export { analyzeWebsite }
