@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const AnalyzeForm = ({ setMetrics, setLoading , loading}) => {
+const AnalyzeForm = ({ setMetrics, setLoading , loading }) => {
   const [url, setUrl] = useState('');
   const [error, setError] = useState('');
 
@@ -11,9 +11,8 @@ const AnalyzeForm = ({ setMetrics, setLoading , loading}) => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:3000/metrics/analyze', { url });
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/metrics/analyze`, { url });
       setMetrics(response.data.data);
-      console.log("Data - ", response.data);
     } catch (err) {
       setError('Failed to analyze website');
     } finally {
