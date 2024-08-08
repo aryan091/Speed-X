@@ -11,6 +11,44 @@ Speed X is a comprehensive web application designed to analyze and provide insig
 - **Performance Summary:** View a summary of key performance metrics in a clean, user-friendly interface.
 - **Responsive Design:** Optimized for both desktop and mobile devices.
 
+## Tech Stack
+
+### Frontend
+
+- **React.js**: Utilized for building the user interface with a component-based architecture. The app leverages hooks like `useState` and `useEffect` for state management and lifecycle events.
+
+- **Tailwind CSS**: Employed for styling the application with a utility-first approach, enabling rapid custom design implementation and responsiveness.
+
+- **Axios**: Used for making HTTP requests to the backend API, enabling the frontend to communicate seamlessly with the backend server.
+
+- **React Spinners (PropagateLoader)**: Integrated for displaying a loading spinner during asynchronous operations, providing visual feedback to users.
+
+- **Vite**: Used as the build tool for faster development and optimized build processes. Vite provides a modern development experience with instant server start, optimized hot module replacement, and fast builds.
+
+### Backend
+
+- **Node.js**: Used as the runtime environment for the backend server, allowing for JavaScript to be executed on the server side.
+
+- **Express.js**: A minimal and flexible Node.js web application framework utilized for building the RESTful API and handling HTTP requests.
+
+- **Axios**: Used within the backend for making HTTP requests to external APIs, such as Google's PageSpeed Insights API.
+
+- **Google PageSpeed Insights API**: Utilized for fetching detailed performance metrics of web pages, providing insights into user experience and performance scores.
+
+### Utilities and Tools
+
+- **dotenv**: Employed for managing environment variables, ensuring sensitive data like API keys remain secure and configurable across different environments.
+
+- **Cors**: Integrated to enable Cross-Origin Resource Sharing, allowing the frontend application to interact with the backend server hosted on a different domain.
+
+- **ES Modules (ESM)**: Employed for organizing and importing/exporting JavaScript modules, providing a modern module management approach.
+
+### Deployment and Hosting
+
+- **Vercel**: Considered for deploying the frontend application, offering seamless integration and automatic deployments from Git repositories.
+
+- **Render**: Suitable platforms for deploying the backend server, offering scalability and ease of deployment for Node.js applications.
+
 ## Prerequisites
 
 - **Frontend:**
