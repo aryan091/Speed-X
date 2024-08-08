@@ -75,7 +75,7 @@ const PerformanceMetrics = ({ metrics }) => {
           );
         })}
       </div>
-      <div className="mt-4 text-center flex justify-center flex-col-reverse md:flex-row-reverse h-auto">
+      <div className="mt-4 text-center flex justify-center flex-col-reverse md:flex-row-reverse h-auto lg:mr-48">
       <MetricCard metrics={metrics} />
       <div className="flex items-center justify-center w-[30%] p-8 ml-28 sm:ml-[12rem] md:ml-[12rem] h-[100%] lg:mr-8">
       <MetricCircle
