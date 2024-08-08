@@ -2,40 +2,10 @@ import React from 'react';
 import MetricCircle from './MetricCircle'; // Assume MetricCircle is a custom component
 import MetricCard from './MetricCard';
 import './tooltip.css'; // Ensure this CSS file is updated accordingly
+import { getPerformanceCategory , categorizeMetrics } from '../utils/helper';
 
 const PerformanceMetrics = ({ metrics }) => {
-  // Helper function to categorize metrics
-  const getPerformanceCategory = (score) => {
-    if (score >= 90) return 'Good';
-    if (score >= 50) return 'Needs Improvement';
-    return 'Poor';
-  };
-
-  const categorizeMetrics = (metricKey) => {
-    switch (metricKey) {
-      case 'performanceScore':
-        return {
-          title: 'Performance',
-          desc: 'Overall Performance Score',
-          display: metrics.performanceScore,
-          category: getPerformanceCategory(metrics.performanceScore),
-        };
-      case 'fcp':
-        return { title: 'FCP', desc: 'First Contentful Paint', display: metrics.fcp.display, category: metrics.fcp.category };
-      case 'lcp':
-        return { title: 'LCP', desc: 'Largest Contentful Paint', display: metrics.lcp.display, category: metrics.lcp.category };
-      case 'cls':
-        return { title: 'CLS', desc: 'Cumulative Layout Shift', display: metrics.cls.display, category: metrics.cls.category };
-      case 'tbt':
-        return { title: 'TBT', desc: 'Total Blocking Time', display: metrics.tbt.display, category: metrics.tbt.category };
-      case 'speedIndex':
-        return { title: 'Speed Index', desc: 'Speed Index Measurement', display: metrics.speedIndex.display, category: metrics.speedIndex.category };
-      case 'interactive':
-        return { title: 'Interactive', desc: 'Time to Interactive', display: metrics.interactive.display, category: metrics.interactive.category };
-      default:
-        return { title: metricKey, desc: 'Unknown Metric', display: 'Unknown', category: 'Unknown' };
-    }
-  };
+    
 
   return (
     <div className="mx-4 z-40">

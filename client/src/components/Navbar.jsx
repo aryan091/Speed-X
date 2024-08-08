@@ -5,6 +5,14 @@ import React, { useState } from 'react';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  /**
+   * Toggles the state of the menu.
+   *
+   * This function updates the `isOpen` state variable by negating its current value.
+   *
+   * @return {void} This function does not return a value.
+   */
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };

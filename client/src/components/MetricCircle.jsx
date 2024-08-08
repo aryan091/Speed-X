@@ -1,15 +1,4 @@
-const getCircleColor = (category) => {
-    switch (category) {
-      case 'Good':
-        return 'text-green-500 border-green-500';
-      case 'Needs Improvement':
-        return 'text-yellow-500 border-yellow-500';
-      case 'Poor':
-        return 'text-red-500 border-red-500';
-      default:
-        return 'text-gray-500 border-gray-400';
-    }
-  };
+import { getCircleColor } from "../utils/helper";
   
   const MetricCircle = ({ title, value, category, size, fixedSize }) => (
     <div

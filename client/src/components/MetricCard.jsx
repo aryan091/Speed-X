@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 const MetricCard = ({ metrics }) => {
   return (
     <div className="task-card  p-6 bg-white rounded-lg shadow-xl relative w-full sm:left-[-5rem]  sm:w-[30%] h-auto ">
