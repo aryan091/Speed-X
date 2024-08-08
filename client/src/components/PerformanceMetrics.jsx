@@ -2,7 +2,7 @@ import React from 'react';
 import MetricCircle from './MetricCircle'; // Assume MetricCircle is a custom component
 import MetricCard from './MetricCard';
 import './tooltip.css'; // Ensure this CSS file is updated accordingly
-import { getPerformanceCategory , categorizeMetrics } from '../utils/helper';
+import { getPerformanceCategory } from '../utils/helper';
 
 const PerformanceMetrics = ({ metrics }) => {
   
@@ -75,10 +75,10 @@ const PerformanceMetrics = ({ metrics }) => {
           );
         })}
       </div>
-      <div className="mt-4 text-center flex justify-center flex-col-reverse sm:ml-0 sm:flex-row-reverse h-auto">
-        <MetricCard metrics={metrics} />
-        <div className="flex items-center justify-center w-[30%]  p-8 ml-28 sm:ml-8 h-[100%] ">
-          <MetricCircle
+      <div className="mt-4 text-center flex justify-center flex-col-reverse md:flex-row-reverse h-auto">
+      <MetricCard metrics={metrics} />
+      <div className="flex items-center justify-center w-[30%] p-8 ml-28 sm:ml-[12rem] md:ml-[12rem] h-[100%] lg:mr-8">
+      <MetricCircle
             title="Performance"
             value={metrics.performanceScore}
             category={getPerformanceCategory(metrics.performanceScore)}

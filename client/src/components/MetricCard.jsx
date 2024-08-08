@@ -3,7 +3,7 @@ import React from 'react';
 
 const MetricCard = ({ metrics }) => {
   return (
-    <div className="task-card  p-6 bg-white rounded-lg shadow-xl relative w-full sm:left-[-5rem]  sm:w-[30%] h-auto ">
+    <div className="task-card  p-6 bg-white rounded-lg shadow-xl relative w-full sm:left-0  sm:w-[100%] h-auto lg:w-[30%]  lg:left-[-5rem]">
       <h3 className="text-xl font-bold text-purple-700 mb-4 text-center">
         Performance Summary
       </h3>
