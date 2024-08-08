@@ -52,10 +52,10 @@ const AnalyzeForm = ({ setMetrics, setLoading , loading }) => {
           disabled={loading}
           className="bg-blue-500 text-white p-2 rounded-md font-bold hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-400"
         >
-          {loading ? 'Analyzing...' : 'Analyze'}
+          Analyze
         </button>
       </form>
-      {error && <p className="text-red-500 mt-2 text-center text-extrabold">{error}</p>}
+      {error && <p className="text-purple-100 mt-2 text-center text-extrabold">{error}</p>}
     </div>
   );
 };
