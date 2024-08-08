@@ -67,9 +67,10 @@ const Navbar = () => {
           </div>
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex-shrink-0">
-              <a href="#" className="text-white font-bold text-xl">
+              <p                className=" text-xl cursor-pointer hover:text-pink-500 bg-gradient-to-r from-pink-300 via-slate-500 to-purple-500 bg-clip-text  tracking-tight text-transparent font-bold text-center"
+              >
                 Speed X
-              </a>
+              </p>
             </div>
             
           </div>
