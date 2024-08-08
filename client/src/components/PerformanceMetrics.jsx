@@ -70,9 +70,9 @@ const PerformanceMetrics = ({ metrics }) => {
           );
         })}
       </div>
-      <div className="mt-4 text-center flex justify-center flex-col sm:ml-52 sm:flex-row h-auto">
+      <div className="mt-4 text-center flex justify-center flex-col-reverse sm:ml-0 sm:flex-row-reverse h-auto">
         <MetricCard metrics={metrics} />
-        <div className="flex items-center justify-center w-[30%] mx-28 p-8 sm:ml-8 h-[100%] ">
+        <div className="flex items-center justify-center w-[30%]  p-8 ml-28 sm:ml-8 h-[100%] ">
           <MetricCircle
             title="Performance"
             value={metrics.performanceScore}
